@@ -15,6 +15,7 @@
         </div>
         <div class="top-actions" aria-label="ページ切り替え">
           <button class="page-tab is-active" type="button" data-view-button="child">児童</button>
+          <button class="page-tab" type="button" data-view-button="shop">おかいもの</button>
           <button class="page-tab" type="button" data-view-button="teacher">先生</button>
         </div>
       </header>
@@ -108,6 +109,45 @@
           </section>
         </section>
 
+        <section class="view shop-page" data-view="shop" aria-labelledby="shop-title">
+          <div class="shop-grid">
+            <section class="hero-panel shop-summary">
+              <div>
+                <p class="eyebrow">ごほうび</p>
+                <h2 id="shop-title"><ruby>お買い物<rt>おかいもの</rt></ruby></h2>
+              </div>
+              <label>
+                <ruby>児童<rt>じどう</rt></ruby>をえらぶ
+                <select id="shopStudentSelect" class="select"></select>
+              </label>
+              <div class="score-row">
+                <div class="score-card">
+                  <span><ruby>児童<rt>じどう</rt></ruby></span>
+                  <strong id="shopSelectedName">未選択</strong>
+                </div>
+                <div class="score-card">
+                  <span><ruby>使<rt>つか</rt></ruby>えるシート</span>
+                  <strong id="shopAvailableSheets">0</strong>
+                </div>
+                <div class="score-card">
+                  <span><ruby>完成<rt>かんせい</rt></ruby>シート</span>
+                  <strong id="shopCompletedSheets">0</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="work-panel">
+              <div class="section-head">
+                <div>
+                  <p class="eyebrow">景品</p>
+                  <h2>景品をえらぶ</h2>
+                </div>
+              </div>
+              <div id="shopRewards" class="reward-list shop-prize-list"></div>
+            </section>
+          </div>
+        </section>
+
         <section class="view teacher-page" data-view="teacher" aria-labelledby="teacher-title">
           <div class="teacher-grid">
             <section class="work-panel">
@@ -196,22 +236,50 @@
               </div>
             </section>
 
+            <section class="work-panel prize-settings-panel">
+              <div class="section-head">
+                <div>
+                  <p class="eyebrow">景品設定</p>
+                  <h2>景品の追加・編集</h2>
+                </div>
+              </div>
+              <form id="prizeForm" class="form-grid prize-form">
+                <input id="prizeId" type="hidden">
+                <label>
+                  景品名
+                  <input id="prizeName" type="text" placeholder="例: シール 1枚" required>
+                </label>
+                <label>
+                  必要なシート数
+                  <input id="prizeCostSheets" type="number" min="1" step="1" value="1" required>
+                </label>
+                <label>
+                  説明
+                  <input id="prizeDescription" type="text" placeholder="例: 使えるシート1枚と交換します。">
+                </label>
+                <label class="check-row">
+                  <input id="prizeEnabled" type="checkbox" checked>
+                  買い物ページに表示する
+                </label>
+                <div class="form-actions">
+                  <button class="primary-button" type="submit">景品を保存</button>
+                  <button class="soft-button" type="button" id="clearPrizeForm">新規入力</button>
+                </div>
+              </form>
+              <div id="prizeSettingsList" class="reward-list"></div>
+            </section>
+
             <section class="work-panel">
               <div class="section-head">
                 <div>
-                  <p class="eyebrow">報酬</p>
-                  <h2>シートで交換</h2>
+                  <p class="eyebrow">解放</p>
+                  <h2>スタンプ解放状況</h2>
                 </div>
-                <select id="rewardStudentSelect" class="select"></select>
               </div>
-              <div class="rewards-grid">
+              <div class="rewards-grid teacher-rewards-grid">
                 <section>
                   <h3>今までに集めたスタンプで解放</h3>
                   <div id="unlockRewards" class="reward-list"></div>
-                </section>
-                <section>
-                  <h3>使えるシートで交換</h3>
-                  <div id="shopRewards" class="reward-list"></div>
                 </section>
                 <section>
                   <h3>着せ替え</h3>

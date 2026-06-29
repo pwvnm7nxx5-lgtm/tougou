@@ -277,6 +277,7 @@ button:disabled {
 }
 
 .child-grid,
+.shop-grid,
 .teacher-grid,
 .stamp-workbench,
 .score-row,
@@ -290,6 +291,11 @@ button:disabled {
   align-items: stretch;
 }
 
+.shop-grid {
+  grid-template-columns: minmax(300px, 0.8fr) minmax(420px, 1.2fr);
+  align-items: start;
+}
+
 .teacher-grid {
   grid-template-columns: minmax(300px, 0.75fr) minmax(420px, 1.25fr);
   align-items: start;
@@ -298,7 +304,8 @@ button:disabled {
 .teacher-grid > .work-panel:nth-child(3),
 .teacher-grid > .work-panel:nth-child(4),
 .teacher-grid > .work-panel:nth-child(5),
-.teacher-grid > .work-panel:nth-child(6) {
+.teacher-grid > .work-panel:nth-child(6),
+.prize-settings-panel {
   grid-column: 1 / -1;
 }
 
@@ -665,8 +672,16 @@ input:focus,
   gap: 16px;
 }
 
+.teacher-rewards-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.65fr);
+}
+
 .reward-list {
   margin-top: 10px;
+}
+
+.shop-prize-list {
+  margin-top: 0;
 }
 
 .reward-card {
@@ -734,8 +749,27 @@ input:focus,
   gap: 12px;
 }
 
-.stamp-asset-form {
+.shop-summary {
+  display: grid;
+  gap: 16px;
+}
+
+.stamp-asset-form,
+.prize-form {
   margin-bottom: 14px;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+}
+
+.check-row input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--green);
 }
 
 .form-actions,
@@ -1112,6 +1146,7 @@ input:focus,
 
 @media (max-width: 980px) {
   .child-grid,
+  .shop-grid,
   .teacher-grid,
   .stamp-workbench,
   .rewards-grid {
@@ -1121,7 +1156,8 @@ input:focus,
   .teacher-grid > .work-panel:nth-child(3),
   .teacher-grid > .work-panel:nth-child(4),
   .teacher-grid > .work-panel:nth-child(5),
-  .teacher-grid > .work-panel:nth-child(6) {
+  .teacher-grid > .work-panel:nth-child(6),
+  .prize-settings-panel {
     grid-column: auto;
   }
 

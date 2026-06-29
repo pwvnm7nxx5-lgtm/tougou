@@ -137,6 +137,10 @@ const els = {
   selectedAvailable: document.querySelector("#selectedAvailable"),
   selectedLevel: document.querySelector("#selectedLevel"),
   nextLevelText: document.querySelector("#nextLevelText"),
+  shopStudentSelect: document.querySelector("#shopStudentSelect"),
+  shopSelectedName: document.querySelector("#shopSelectedName"),
+  shopAvailableSheets: document.querySelector("#shopAvailableSheets"),
+  shopCompletedSheets: document.querySelector("#shopCompletedSheets"),
   teacherSheetTitle: document.querySelector("#teacherSheetTitle"),
   teacherSheetProgress: document.querySelector("#teacherSheetProgress"),
   teacherSheetGrid: document.querySelector("#teacherSheetGrid"),
@@ -145,9 +149,16 @@ const els = {
   historyList: document.querySelector("#historyList"),
   editStudentButton: document.querySelector("#editStudentButton"),
   deleteStudentButton: document.querySelector("#deleteStudentButton"),
-  rewardStudentSelect: document.querySelector("#rewardStudentSelect"),
   unlockRewards: document.querySelector("#unlockRewards"),
   shopRewards: document.querySelector("#shopRewards"),
+  prizeForm: document.querySelector("#prizeForm"),
+  prizeId: document.querySelector("#prizeId"),
+  prizeName: document.querySelector("#prizeName"),
+  prizeCostSheets: document.querySelector("#prizeCostSheets"),
+  prizeDescription: document.querySelector("#prizeDescription"),
+  prizeEnabled: document.querySelector("#prizeEnabled"),
+  clearPrizeForm: document.querySelector("#clearPrizeForm"),
+  prizeSettingsList: document.querySelector("#prizeSettingsList"),
   studentForm: document.querySelector("#studentForm"),
   studentId: document.querySelector("#studentId"),
   studentName: document.querySelector("#studentName"),
@@ -205,6 +216,11 @@ function bindEvents() {
     saveStampAsset();
   });
   els.clearStampAssetForm.addEventListener("click", clearStampAssetForm);
+  els.prizeForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    savePrize();
+  });
+  els.clearPrizeForm.addEventListener("click", clearPrizeForm);
 
   els.childAddStampButton.addEventListener("click", () => openStampPreview({ source: "child" }));
   els.addStampButton.addEventListener("click", () => openStampPreview({ source: "teacher" }));
@@ -217,8 +233,8 @@ function bindEvents() {
   });
   els.editStudentButton.addEventListener("click", editSelectedStudent);
   els.deleteStudentButton.addEventListener("click", deleteSelectedStudent);
-  els.rewardStudentSelect.addEventListener("change", () => {
-    state.selectedStudentId = els.rewardStudentSelect.value;
+  els.shopStudentSelect.addEventListener("change", () => {
+    state.selectedStudentId = els.shopStudentSelect.value;
     persist();
     render();
   });
@@ -295,20 +311,29 @@ function normalizeRewards(inputRewards) {
   inputRewards.forEach((reward) => {
     const base = byId.get(reward.id);
     if (!base) {
-      byId.set(reward.id, reward);
+      byId.set(reward.id, normalizeReward(reward));
       return;
     }
-    byId.set(reward.id, {
-      ...base,
-      ...reward,
-      costStamps: base.costStamps ?? reward.costStamps ?? reward.cost,
-      costSheets: base.costSheets ?? reward.costSheets ?? stampsToSheets(reward.cost),
-      locked: base.locked ?? reward.locked ?? false,
-      description: base.description,
-    });
+    byId.set(reward.id, normalizeReward(reward, base));
   });
 
-  return Array.from(byId.values());
+  return Array.from(byId.values()).map((reward) => normalizeReward(reward));
+}
+
+function normalizeReward(reward, base = {}) {
+  const costFromLegacy = reward.cost === undefined ? undefined : stampsToSheets(reward.cost);
+  return {
+    ...base,
+    ...reward,
+    id: String(reward.id || base.id || `shop-${crypto.randomUUID()}`),
+    name: String(reward.name || base.name || "新しい景品").trim(),
+    type: reward.type || base.type || "shop",
+    costStamps: Number(reward.costStamps ?? base.costStamps ?? reward.cost ?? 0),
+    costSheets: Math.max(1, Number(reward.costSheets ?? costFromLegacy ?? base.costSheets ?? 1)),
+    description: String(reward.description ?? base.description ?? "").trim(),
+    enabled: reward.enabled ?? base.enabled ?? true,
+    locked: reward.locked ?? base.locked ?? false,
+  };
 }
 
 function normalizeStampAssets(inputAssets) {
@@ -540,26 +565,36 @@ function renderHistory(studentId) {
 
 function renderRewards() {
   if (!state.students.length) {
-    els.rewardStudentSelect.innerHTML = '<option value="">児童未登録</option>';
+    els.shopStudentSelect.innerHTML = '<option value="">児童未登録</option>';
   } else {
-    els.rewardStudentSelect.innerHTML = state.students
+    els.shopStudentSelect.innerHTML = state.students
       .map((student) => `<option value="${student.id}">${escapeHtml(student.name)}</option>`)
       .join("");
-    els.rewardStudentSelect.value = state.selectedStudentId || state.students[0].id;
+    els.shopStudentSelect.value = state.selectedStudentId || state.students[0].id;
   }
 
   const student = selectedStudent();
   const stats = student ? studentStats(student.id) : emptyStats();
   const unlockRewards = activeStampAssets().filter((stamp) => stamp.unlockAt > 0);
   const shopRewards = state.rewards.filter((reward) => reward.enabled && reward.type === "shop");
+  renderShopSummary(student, stats);
   els.unlockRewards.innerHTML = unlockRewards.length
     ? unlockRewards.map((stamp) => unlockStampCard(stamp, stats)).join("")
     : '<p class="empty-state">解放条件つきのスタンプはありません。</p>';
-  els.shopRewards.innerHTML = shopRewards.map((reward) => rewardCard(reward, stats, student)).join("");
+  els.shopRewards.innerHTML = shopRewards.length
+    ? shopRewards.map((reward) => rewardCard(reward, stats, student)).join("")
+    : '<p class="empty-state">まだ景品がありません。先生ページで追加してください。</p>';
+  renderPrizeSettings();
 
   els.shopRewards.querySelectorAll("[data-redeem]").forEach((button) => {
     button.addEventListener("click", () => openExchangeConfirm(button.dataset.redeem));
   });
+}
+
+function renderShopSummary(student, stats) {
+  els.shopSelectedName.textContent = student ? student.name : "未選択";
+  els.shopAvailableSheets.textContent = stats.availableSheets;
+  els.shopCompletedSheets.textContent = stats.completedSheets;
 }
 
 function unlockStampCard(stamp, stats) {
@@ -609,6 +644,32 @@ function rewardCard(reward, stats, student) {
       <p>${value} / ${cost}${unit}</p>
     </article>
   `;
+}
+
+function renderPrizeSettings() {
+  const prizes = state.rewards.filter((reward) => reward.type === "shop");
+  if (!prizes.length) {
+    els.prizeSettingsList.innerHTML = '<p class="empty-state">まだ景品がありません。</p>';
+    return;
+  }
+
+  els.prizeSettingsList.innerHTML = prizes
+    .map((prize) => `
+      <article class="reward-card prize-setting-card${prize.locked || !prize.enabled ? " is-disabled" : ""}">
+        <div class="reward-top">
+          <div>
+            <strong>${escapeHtml(prize.name)}</strong>
+            <p>${escapeHtml(prize.description || "説明なし")} / ${prize.costSheets}シート${prize.enabled ? "" : " / 非表示"}${prize.locked ? " / 使用不可" : ""}</p>
+          </div>
+          <button class="soft-button compact-button" type="button" data-edit-prize="${prize.id}">編集</button>
+        </div>
+      </article>
+    `)
+    .join("");
+
+  els.prizeSettingsList.querySelectorAll("[data-edit-prize]").forEach((button) => {
+    button.addEventListener("click", () => editPrize(button.dataset.editPrize));
+  });
 }
 
 function renderStampAssets() {
@@ -753,6 +814,64 @@ function readFileAsDataUrl(file) {
     reader.addEventListener("error", reject);
     reader.readAsDataURL(file);
   });
+}
+
+function editPrize(prizeId) {
+  const prize = state.rewards.find((reward) => reward.id === prizeId && reward.type === "shop");
+  if (!prize) {
+    return;
+  }
+
+  els.prizeId.value = prize.id;
+  els.prizeName.value = prize.name;
+  els.prizeCostSheets.value = String(prize.costSheets || 1);
+  els.prizeDescription.value = prize.description || "";
+  els.prizeEnabled.checked = prize.enabled !== false;
+  els.prizeName.focus();
+}
+
+function clearPrizeForm() {
+  els.prizeId.value = "";
+  els.prizeName.value = "";
+  els.prizeCostSheets.value = "1";
+  els.prizeDescription.value = "";
+  els.prizeEnabled.checked = true;
+}
+
+function savePrize() {
+  const name = els.prizeName.value.trim();
+  const costSheets = Math.max(1, Math.floor(Number(els.prizeCostSheets.value || 1)));
+  const description = els.prizeDescription.value.trim();
+  const prizeId = els.prizeId.value;
+  const existing = state.rewards.find((reward) => reward.id === prizeId && reward.type === "shop");
+
+  if (!name) {
+    showToast("景品名を入力してください");
+    return;
+  }
+  if (!Number.isFinite(costSheets) || costSheets < 1) {
+    showToast("必要なシート数を入力してください");
+    return;
+  }
+
+  const nextPrize = normalizeReward({
+    id: existing?.id || `shop-${crypto.randomUUID()}`,
+    name,
+    type: "shop",
+    costSheets,
+    description,
+    enabled: els.prizeEnabled.checked,
+    locked: existing?.locked || false,
+  }, existing || {});
+
+  state.rewards = normalizeRewards([
+    ...state.rewards.filter((reward) => reward.id !== nextPrize.id),
+    nextPrize,
+  ]);
+  clearPrizeForm();
+  persist();
+  render();
+  showToast(existing ? "景品を更新しました" : "景品を追加しました");
 }
 
 function showView(viewName) {
