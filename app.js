@@ -1346,9 +1346,12 @@ function playTimerFinishedSound() {
 
   const startAt = timerAudioContext.currentTime;
   const notes = [
-    { frequency: 523.25, start: 0, duration: 0.16 },
-    { frequency: 659.25, start: 0.16, duration: 0.16 },
-    { frequency: 783.99, start: 0.32, duration: 0.32 },
+    { frequency: 523.25, start: 0, duration: 0.22 },
+    { frequency: 659.25, start: 0.24, duration: 0.22 },
+    { frequency: 783.99, start: 0.48, duration: 0.34 },
+    { frequency: 1046.5, start: 0.9, duration: 0.44 },
+    { frequency: 783.99, start: 1.42, duration: 0.28 },
+    { frequency: 1046.5, start: 1.76, duration: 0.52 },
   ];
 
   notes.forEach((note) => {
