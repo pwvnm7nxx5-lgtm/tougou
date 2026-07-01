@@ -60,6 +60,80 @@ const defaultStampAssets = [
     unlockAt: 60,
   },
   {
+    id: "hounyan-nice",
+    name: "ナイス",
+    reading: "ないす",
+    src: "assets/hounyan-stamps/hounyan-stamp-03.png",
+    unlockAt: 80,
+  },
+  {
+    id: "hounyan-yattane",
+    name: "やったね",
+    reading: "やったね",
+    src: "assets/hounyan-stamps/hounyan-stamp-04.png",
+    unlockAt: 100,
+  },
+  {
+    id: "hounyan-sutekidane",
+    name: "すてきだね",
+    reading: "すてきだね",
+    src: "assets/hounyan-stamps/hounyan-stamp-07.png",
+    unlockAt: 120,
+  },
+  {
+    id: "hounyan-eraine",
+    name: "えらいね",
+    reading: "えらいね",
+    src: "assets/hounyan-stamps/hounyan-stamp-08.png",
+    unlockAt: 140,
+  },
+  {
+    id: "hounyan-bacchiri",
+    name: "ばっちり",
+    reading: "ばっちり",
+    src: "assets/hounyan-stamps/hounyan-stamp-09.png",
+    unlockAt: 160,
+  },
+  {
+    id: "hounyan-saikou",
+    name: "さいこう",
+    reading: "さいこう",
+    src: "assets/hounyan-stamps/hounyan-stamp-10.png",
+    unlockAt: 180,
+  },
+  {
+    id: "hounyan-petit-special-bronze",
+    name: "プチスペシャル",
+    reading: "ぷちすぺしゃる",
+    src: "assets/hounyan-stamps/hounyan-stamp-01.png",
+    unlockAt: 200,
+    rarity: "special",
+  },
+  {
+    id: "hounyan-petit-special-silver",
+    name: "プチスペシャル銀",
+    reading: "ぷちすぺしゃるぎん",
+    src: "assets/hounyan-stamps/hounyan-stamp-02.png",
+    unlockAt: 220,
+    rarity: "special",
+  },
+  {
+    id: "hounyan-special",
+    name: "スペシャル",
+    reading: "すぺしゃる",
+    src: "assets/hounyan-stamps/hounyan-stamp-06.png",
+    unlockAt: 240,
+    rarity: "special",
+  },
+  {
+    id: "hounyan-super-special",
+    name: "スーパースペシャル",
+    reading: "すーぱーすぺしゃる",
+    src: "assets/hounyan-stamps/hounyan-stamp-05.png",
+    unlockAt: 260,
+    rarity: "special",
+  },
+  {
     id: "shop-medal",
     name: "きんメダル",
     reading: "きんメダル",
@@ -254,6 +328,11 @@ const els = {
   childAvailableSheets: document.querySelector("#childAvailableSheets"),
   childCurrentSheetCount: document.querySelector("#childCurrentSheetCount"),
   childRemainingText: document.querySelector("#childRemainingText"),
+  childLevelName: document.querySelector("#childLevelName"),
+  childLevelRequirement: document.querySelector("#childLevelRequirement"),
+  childLevelProgressBar: document.querySelector("#childLevelProgressBar"),
+  childLevelProgressText: document.querySelector("#childLevelProgressText"),
+  childNextLevelPreview: document.querySelector("#childNextLevelPreview"),
   childNextUnlock: document.querySelector("#childNextUnlock"),
   childSheetTitle: document.querySelector("#childSheetTitle"),
   childSheetProgress: document.querySelector("#childSheetProgress"),
@@ -843,6 +922,27 @@ function renderHounyanLevel(student, stats) {
     els.teacherLevelRequirement.textContent = level.nextRule
       ? `次はあと${level.remainingSheets}シートで「${level.nextRule.name}」`
       : "今の設定では最大レベルです";
+  }
+  if (els.childLevelName) {
+    els.childLevelName.textContent = `Lv.${level.current} ${currentRule.name}`;
+  }
+  if (els.childLevelRequirement) {
+    els.childLevelRequirement.textContent = level.nextRule
+      ? `あと${level.remainingStamps}こで「${level.nextRule.name}」`
+      : "いまのせっていではさいだいレベルです";
+  }
+  if (els.childLevelProgressBar) {
+    els.childLevelProgressBar.style.width = `${level.progressPercent}%`;
+  }
+  if (els.childLevelProgressText) {
+    els.childLevelProgressText.textContent = level.nextRule
+      ? `${level.progressCurrent}/${level.progressNeeded}こ`
+      : "さいだいレベル";
+  }
+  if (els.childNextLevelPreview) {
+    const previewRule = level.nextRule || currentRule;
+    els.childNextLevelPreview.src = previewRule.image || image;
+    els.childNextLevelPreview.alt = `${previewRule.name}のプレビュー`;
   }
 }
 
@@ -2467,19 +2567,30 @@ function stampsToSheets(value) {
 }
 
 function mascotLevel(statsOrTotal) {
+  const totalStamps = typeof statsOrTotal === "object"
+    ? Number(statsOrTotal.total || 0)
+    : Number(statsOrTotal || 0);
   const completedSheets = typeof statsOrTotal === "object"
     ? Number(statsOrTotal.completedSheets || 0)
-    : Math.floor(Number(statsOrTotal || 0) / SHEET_SIZE);
+    : Math.floor(totalStamps / SHEET_SIZE);
   const rules = activeLevelRules();
   const currentRule = rules
     .filter((rule) => rule.requiredSheets <= completedSheets)
     .at(-1) || rules[0];
   const nextRule = rules.find((rule) => rule.requiredSheets > completedSheets) || null;
+  const currentAtStamps = currentRule.requiredSheets * SHEET_SIZE;
+  const nextAtStamps = nextRule ? nextRule.requiredSheets * SHEET_SIZE : currentAtStamps;
+  const progressNeeded = nextRule ? Math.max(1, nextAtStamps - currentAtStamps) : 0;
+  const progressCurrent = nextRule ? Math.max(0, Math.min(progressNeeded, totalStamps - currentAtStamps)) : 0;
   return {
     current: currentRule.level,
     currentRule,
     nextRule,
     remainingSheets: nextRule ? Math.max(0, nextRule.requiredSheets - completedSheets) : 0,
+    remainingStamps: nextRule ? Math.max(0, nextAtStamps - totalStamps) : 0,
+    progressCurrent,
+    progressNeeded,
+    progressPercent: nextRule ? Math.round((progressCurrent / progressNeeded) * 100) : 100,
   };
 }
 
