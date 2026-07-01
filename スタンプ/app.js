@@ -5,8 +5,8 @@ const STAMP_BATCH_MAX = SHEET_SIZE;
 const TIMER_DEFAULT_SECONDS = 5 * 60;
 const TIMER_MAX_SECONDS = 99 * 60 + 59;
 const TIMER_FINISH_SOUNDS = {
-  study: "assets/timer-sounds/study-finish.mp3",
-  play: "assets/timer-sounds/play-finish.mp3",
+  study: "assets/timer-sounds/study-finish.wav",
+  play: "assets/timer-sounds/play-finish.wav",
 };
 const REMOVED_PURCHASABLE_STAMP_IDS = new Set([
   "shop-hanamaru",
