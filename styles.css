@@ -138,6 +138,11 @@ rt {
   color: #fff;
 }
 
+.page-tab.is-active {
+  background: var(--green);
+  color: #fff;
+}
+
 .primary-button {
   padding: 0 18px;
   box-shadow: 0 10px 22px rgba(66, 180, 51, 0.22);
@@ -294,6 +299,13 @@ button:disabled {
 .shop-grid {
   grid-template-columns: minmax(300px, 0.72fr) minmax(420px, 1.28fr);
   align-items: start;
+}
+
+.timer-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(360px, 1.28fr);
+  gap: 16px;
+  align-items: stretch;
 }
 
 .shop-stamp-panel {
@@ -965,6 +977,97 @@ input:focus,
   font-weight: 900;
 }
 
+.timer-hero {
+  display: grid;
+  align-content: space-between;
+  gap: 18px;
+  min-height: 360px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(247, 198, 0, 0.22), transparent 34%),
+    linear-gradient(160deg, #ffffff, #eefaf4);
+}
+
+.timer-hounyan {
+  width: min(100%, 260px);
+  justify-self: center;
+  align-self: end;
+  object-fit: contain;
+}
+
+.timer-panel {
+  display: grid;
+  gap: 16px;
+  align-content: center;
+}
+
+.timer-display {
+  display: grid;
+  place-items: center;
+  padding: 8px 0;
+}
+
+.timer-ring {
+  --timer-progress: 1;
+  width: min(320px, 78vw);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    conic-gradient(var(--green) calc(var(--timer-progress) * 1turn), #e3eee8 0);
+  box-shadow: 0 22px 54px rgba(36, 84, 76, 0.18);
+}
+
+.timer-ring.is-low {
+  background:
+    conic-gradient(var(--danger) calc(var(--timer-progress) * 1turn), #f5e3e1 0);
+}
+
+.timer-ring-inner {
+  width: calc(100% - 32px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  border-radius: 50%;
+  background: #fff;
+  text-align: center;
+}
+
+.timer-ring-inner strong {
+  font-size: clamp(3rem, 12vw, 5.2rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-ring-inner span {
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.timer-presets,
+.timer-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.timer-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.timer-inputs label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-weight: 900;
+}
+
 .stamp-asset-form,
 .prize-form {
   margin-bottom: 14px;
@@ -1397,6 +1500,7 @@ input:focus,
 @media (max-width: 980px) {
   .child-grid,
   .shop-grid,
+  .timer-grid,
   .teacher-grid,
   .stamp-workbench,
   .rewards-grid {
@@ -1429,11 +1533,13 @@ input:focus,
 
   .top-actions {
     width: 100%;
+    flex-wrap: wrap;
   }
 
   .icon-button,
   .page-tab {
     flex: 1;
+    min-width: calc(50% - 4px);
   }
 
   .student-switcher {
@@ -1471,6 +1577,24 @@ input:focus,
   .shop-hounyan {
     width: 86px;
     height: 86px;
+  }
+
+  .timer-hero {
+    min-height: 260px;
+  }
+
+  .timer-hounyan {
+    width: min(72vw, 210px);
+  }
+
+  .timer-presets,
+  .timer-actions,
+  .timer-inputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timer-inputs .soft-button {
+    grid-column: 1 / -1;
   }
 
   .shop-prize-head,

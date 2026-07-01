@@ -16,6 +16,7 @@
         <div class="top-actions" aria-label="ページ切り替え">
           <button class="page-tab is-active" type="button" data-view-button="child">児童</button>
           <button class="page-tab" type="button" data-view-button="shop">おかいもの</button>
+          <button class="page-tab" type="button" data-view-button="timer">タイマー</button>
           <button class="page-tab" type="button" data-view-button="teacher">先生</button>
         </div>
       </header>
@@ -162,6 +163,54 @@
                 </div>
               </div>
               <div id="shopStampRewards" class="stamp-shop-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view timer-page" data-view="timer" aria-labelledby="timer-title">
+          <div class="timer-grid">
+            <section class="hero-panel timer-hero">
+              <div>
+                <p class="eyebrow">タイマー</p>
+                <h2 id="timer-title">じかんをきめる</h2>
+              </div>
+              <img src="assets/hounyan-home.png" alt="ほうにゃん" class="timer-hounyan">
+            </section>
+
+            <section class="work-panel timer-panel">
+              <div class="timer-display">
+                <div class="timer-ring" id="timerRing" aria-hidden="true">
+                  <div class="timer-ring-inner">
+                    <strong id="timerTime">05:00</strong>
+                    <span id="timerStatus">じゅんびOK</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timer-presets" aria-label="時間プリセット">
+                <button class="soft-button" type="button" data-timer-preset="60">1分</button>
+                <button class="soft-button" type="button" data-timer-preset="180">3分</button>
+                <button class="soft-button" type="button" data-timer-preset="300">5分</button>
+                <button class="soft-button" type="button" data-timer-preset="600">10分</button>
+              </div>
+
+              <div class="timer-inputs">
+                <label>
+                  分
+                  <input id="timerMinutes" type="number" min="0" max="99" step="1" value="5">
+                </label>
+                <label>
+                  秒
+                  <input id="timerSeconds" type="number" min="0" max="59" step="1" value="0">
+                </label>
+                <button class="soft-button" type="button" id="timerSetButton">セット</button>
+              </div>
+
+              <div class="timer-actions">
+                <button class="primary-button" type="button" id="timerStartButton">スタート</button>
+                <button class="soft-button" type="button" id="timerPauseButton">一時停止</button>
+                <button class="danger-button" type="button" id="timerResetButton">リセット</button>
+              </div>
             </section>
           </div>
         </section>
