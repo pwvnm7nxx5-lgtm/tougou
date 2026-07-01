@@ -2,6 +2,8 @@ const STORAGE_KEY = "hounyan-stamp-ledger-v1";
 const BACKUP_STORAGE_KEY = `${STORAGE_KEY}-broken-backup`;
 const SHEET_SIZE = 20;
 const STAMP_BATCH_MAX = SHEET_SIZE;
+const TIMER_DEFAULT_SECONDS = 5 * 60;
+const TIMER_MAX_SECONDS = 99 * 60 + 59;
 const REMOVED_PURCHASABLE_STAMP_IDS = new Set([
   "shop-hanamaru",
   "shop-sugoi",
@@ -192,6 +194,11 @@ let stampPreviewContext = null;
 let stampPreviewCounts = {};
 let exchangeConfirmRewardId = "";
 let exchangeConfirmAction = null;
+let timerDurationSeconds = TIMER_DEFAULT_SECONDS;
+let timerRemainingSeconds = TIMER_DEFAULT_SECONDS;
+let timerEndAt = 0;
+let timerIntervalId = 0;
+let timerIsRunning = false;
 
 const els = {
   viewButtons: document.querySelectorAll("[data-view-button]"),
@@ -235,6 +242,16 @@ const els = {
   unlockRewards: document.querySelector("#unlockRewards"),
   shopRewards: document.querySelector("#shopRewards"),
   shopStampRewards: document.querySelector("#shopStampRewards"),
+  timerRing: document.querySelector("#timerRing"),
+  timerTime: document.querySelector("#timerTime"),
+  timerStatus: document.querySelector("#timerStatus"),
+  timerMinutes: document.querySelector("#timerMinutes"),
+  timerSeconds: document.querySelector("#timerSeconds"),
+  timerSetButton: document.querySelector("#timerSetButton"),
+  timerStartButton: document.querySelector("#timerStartButton"),
+  timerPauseButton: document.querySelector("#timerPauseButton"),
+  timerResetButton: document.querySelector("#timerResetButton"),
+  timerPresetButtons: document.querySelectorAll("[data-timer-preset]"),
   prizeForm: document.querySelector("#prizeForm"),
   prizeId: document.querySelector("#prizeId"),
   prizeName: document.querySelector("#prizeName"),
@@ -294,6 +311,7 @@ function init() {
   bindEvents();
   updateStampAssetModeFields();
   ensureSelection();
+  renderTimer();
   render();
 }
 
@@ -343,6 +361,13 @@ function bindEvents() {
     persist();
     render();
   });
+  els.timerPresetButtons.forEach((button) => {
+    button.addEventListener("click", () => setTimerDuration(Number(button.dataset.timerPreset || TIMER_DEFAULT_SECONDS)));
+  });
+  els.timerSetButton.addEventListener("click", setTimerFromInputs);
+  els.timerStartButton.addEventListener("click", startTimer);
+  els.timerPauseButton.addEventListener("click", pauseTimer);
+  els.timerResetButton.addEventListener("click", resetTimer);
   els.exportButton.addEventListener("click", exportData);
   els.importInput.addEventListener("change", importData);
   els.exchangeCancelButton.addEventListener("click", closeExchangeConfirm);
@@ -1215,6 +1240,113 @@ function showView(viewName) {
 
 function activeView() {
   return document.querySelector(".view.is-active")?.dataset.view || "child";
+}
+
+function setTimerDuration(seconds) {
+  const nextSeconds = clampTimerSeconds(seconds);
+  stopTimerInterval();
+  timerDurationSeconds = nextSeconds;
+  timerRemainingSeconds = nextSeconds;
+  timerIsRunning = false;
+  timerEndAt = 0;
+  syncTimerInputs();
+  renderTimer();
+}
+
+function setTimerFromInputs() {
+  const minutes = Math.max(0, Math.floor(Number(els.timerMinutes.value || 0)));
+  const seconds = Math.max(0, Math.floor(Number(els.timerSeconds.value || 0)));
+  setTimerDuration(minutes * 60 + seconds);
+}
+
+function startTimer() {
+  if (timerRemainingSeconds <= 0) {
+    timerRemainingSeconds = timerDurationSeconds;
+  }
+  if (timerRemainingSeconds <= 0) {
+    setTimerDuration(TIMER_DEFAULT_SECONDS);
+  }
+
+  timerIsRunning = true;
+  timerEndAt = Date.now() + timerRemainingSeconds * 1000;
+  stopTimerInterval();
+  timerIntervalId = window.setInterval(updateTimerTick, 200);
+  updateTimerTick();
+}
+
+function pauseTimer() {
+  if (!timerIsRunning) {
+    return;
+  }
+  updateTimerTick();
+  timerIsRunning = false;
+  timerEndAt = 0;
+  stopTimerInterval();
+  renderTimer();
+}
+
+function resetTimer() {
+  stopTimerInterval();
+  timerIsRunning = false;
+  timerEndAt = 0;
+  timerRemainingSeconds = timerDurationSeconds;
+  syncTimerInputs();
+  renderTimer();
+}
+
+function updateTimerTick() {
+  if (!timerIsRunning) {
+    return;
+  }
+  timerRemainingSeconds = Math.max(0, Math.ceil((timerEndAt - Date.now()) / 1000));
+  if (timerRemainingSeconds <= 0) {
+    timerIsRunning = false;
+    timerEndAt = 0;
+    stopTimerInterval();
+  }
+  renderTimer();
+}
+
+function stopTimerInterval() {
+  if (timerIntervalId) {
+    window.clearInterval(timerIntervalId);
+    timerIntervalId = 0;
+  }
+}
+
+function renderTimer() {
+  const progress = timerDurationSeconds > 0 ? timerRemainingSeconds / timerDurationSeconds : 0;
+  els.timerTime.textContent = formatTimerTime(timerRemainingSeconds);
+  els.timerRing.style.setProperty("--timer-progress", String(Math.max(0, Math.min(1, progress))));
+  els.timerRing.classList.toggle("is-low", timerDurationSeconds > 0 && progress <= 0.2);
+  els.timerStatus.textContent = timerIsRunning
+    ? "カウントダウン中"
+    : timerRemainingSeconds <= 0
+      ? "おしまい！"
+      : timerRemainingSeconds === timerDurationSeconds
+        ? "じゅんびOK"
+        : "一時停止中";
+  els.timerStartButton.disabled = timerIsRunning;
+  els.timerPauseButton.disabled = !timerIsRunning;
+}
+
+function syncTimerInputs() {
+  els.timerMinutes.value = String(Math.floor(timerDurationSeconds / 60));
+  els.timerSeconds.value = String(timerDurationSeconds % 60);
+}
+
+function clampTimerSeconds(seconds) {
+  const value = Math.floor(Number(seconds || 0));
+  if (!Number.isFinite(value) || value <= 0) {
+    return TIMER_DEFAULT_SECONDS;
+  }
+  return Math.min(TIMER_MAX_SECONDS, value);
+}
+
+function formatTimerTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
 function saveStudent() {
