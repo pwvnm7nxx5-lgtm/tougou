@@ -2500,6 +2500,59 @@ input:focus,
   animation: featurePop 0.7s cubic-bezier(0.2, 0.78, 0.24, 1.18) both;
 }
 
+.animation-stamp-gallery {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  width: min(100%, 340px);
+  margin: -24px auto 12px;
+  padding: 8px;
+  border: 1px solid rgba(47, 150, 223, 0.3);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 22px rgba(47, 150, 223, 0.14);
+  animation: featurePop 0.7s cubic-bezier(0.2, 0.78, 0.24, 1.18) both;
+}
+
+.animation-stamp-gallery[hidden] {
+  display: none;
+}
+
+.animation-stamp-gallery figure {
+  min-width: 0;
+  margin: 0;
+}
+
+.animation-stamp-gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.animation-stamp-gallery figcaption {
+  overflow: hidden;
+  margin-top: 2px;
+  color: var(--green-deep);
+  font-size: 0.58rem;
+  font-weight: 900;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.animation-stamp-gallery[data-count="1"] {
+  grid-template-columns: 1fr;
+  width: min(100%, 142px);
+}
+
+.animation-stamp-gallery[data-count="1"] img {
+  width: min(100%, 92px);
+  margin: 0 auto;
+}
+
 .animation-milestone {
   position: relative;
   z-index: 3;
@@ -2546,6 +2599,14 @@ input:focus,
     radial-gradient(circle at 50% 5%, rgba(47, 150, 223, 0.28), transparent 44%),
     radial-gradient(circle at 84% 22%, rgba(247, 198, 0, 0.24), transparent 26%),
     #f7fcff;
+}
+
+.animation-card[data-animation-type="stamps-purchased"] {
+  border-color: rgba(47, 150, 223, 0.58);
+  background:
+    radial-gradient(circle at 50% 8%, rgba(47, 150, 223, 0.2), transparent 44%),
+    radial-gradient(circle at 10% 30%, rgba(66, 180, 51, 0.16), transparent 30%),
+    #f8fdff;
 }
 
 .animation-card[data-animation-type="level-up"] .animation-burst {

@@ -814,6 +814,7 @@ const els = {
   animationCard: document.querySelector("#animationCard"),
   animationHounyan: document.querySelector("#animationHounyan"),
   animationFeatureImage: document.querySelector("#animationFeatureImage"),
+  animationStampGallery: document.querySelector("#animationStampGallery"),
   animationMilestone: document.querySelector("#animationMilestone"),
   animationMilestoneValue: document.querySelector("#animationMilestoneValue"),
   animationMilestoneLabel: document.querySelector("#animationMilestoneLabel"),
@@ -3714,6 +3715,10 @@ function buyStamp(stampId) {
   }
   render();
   showToast(`${stamp.name}スタンプを購入しました`);
+  showHounyanAnimation("stamps-purchased", {
+    studentName: student.name,
+    stamps: [stamp],
+  });
 }
 
 function buyStampSet(stampSetId) {
@@ -3760,6 +3765,11 @@ function buyStampSet(stampSetId) {
   showToast(nextStampSet
     ? `${stampSet.name}を購入！ ${nextStampSet.name}が かいほうされたよ！`
     : `${stampSet.name}を購入しました`);
+  showHounyanAnimation("stamps-purchased", {
+    studentName: student.name,
+    stampSet,
+    stamps: members,
+  });
 }
 
 function cancelRedemption(redemptionId) {
@@ -4045,6 +4055,20 @@ function playNextHounyanAnimation() {
     els.animationFeatureImage.removeAttribute("src");
     els.animationFeatureImage.alt = "";
   }
+  if (animation.stamps?.length) {
+    els.animationStampGallery.dataset.count = String(animation.stamps.length);
+    els.animationStampGallery.innerHTML = animation.stamps.map((stamp) => `
+      <figure>
+        <img src="${escapeHtml(stamp.src)}" alt="${escapeHtml(stamp.name)}スタンプ">
+        <figcaption>${escapeHtml(stamp.name)}</figcaption>
+      </figure>
+    `).join("");
+    els.animationStampGallery.hidden = false;
+  } else {
+    els.animationStampGallery.hidden = true;
+    els.animationStampGallery.removeAttribute("data-count");
+    els.animationStampGallery.innerHTML = "";
+  }
   if (animation.milestone) {
     els.animationMilestoneValue.textContent = animation.milestone.value;
     els.animationMilestoneLabel.textContent = animation.milestone.label;
@@ -4075,6 +4099,26 @@ function hideHounyanAnimation() {
 }
 
 function animationContent(type, options) {
+  if (type === "stamps-purchased") {
+    const stamps = Array.isArray(options.stamps) ? options.stamps : [];
+    const count = stamps.length;
+    const setName = options.stampSet?.name;
+    const firstStamp = stamps[0];
+    return {
+      pose: "shop",
+      eyebrow: options.studentName ? `${options.studentName}のおかいもの` : "おかいもの",
+      title: "スタンプが つかえるよ！",
+      message: setName
+        ? `「${setName}」を こうにゅうしたよ。つぎにスタンプをおすとき、えらべるよ！`
+        : `${firstStamp?.name || "あたらしい"}スタンプを こうにゅうしたよ。つぎのプリントで つかってみよう！`,
+      stamps,
+      milestone: {
+        value: count > 1 ? `${count}こ` : "NEW",
+        label: "スタンプ かいほう！",
+      },
+    };
+  }
+
   if (type === "stamp-unlocked") {
     const stamp = options.stamp || activeStampAssets()[0];
     return {
