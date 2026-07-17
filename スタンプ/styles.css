@@ -2533,14 +2533,12 @@ input:focus,
 }
 
 .animation-stamp-gallery figcaption {
-  overflow: hidden;
   margin-top: 2px;
   color: var(--green-deep);
-  font-size: 0.58rem;
+  font-size: 0.66rem;
   font-weight: 900;
   line-height: 1.15;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .animation-stamp-gallery[data-count="1"] {
@@ -2551,6 +2549,11 @@ input:focus,
 .animation-stamp-gallery[data-count="1"] img {
   width: min(100%, 92px);
   margin: 0 auto;
+}
+
+.animation-stamp-gallery[data-count="6"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 318px);
 }
 
 .animation-milestone {
