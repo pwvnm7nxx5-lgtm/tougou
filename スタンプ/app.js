@@ -211,7 +211,7 @@ const builtInStampSetDefinitions = [
     tier: 1,
     members: [
       ["cat", "ねこ"], ["dog", "いぬ"], ["rabbit", "うさぎ"],
-      ["elephant", "ぞう"], ["giraffe", "きりん"], ["penguin", "ぺんぎん"],
+      ["elephant", "ぞう"], ["giraffe", "きりん"], ["penguin", "ペンギン"],
     ],
   },
   {
@@ -224,8 +224,8 @@ const builtInStampSetDefinitions = [
     seriesName: "どうぶつのなかま",
     tier: 2,
     members: [
-      ["red-panda", "れっさーぱんだ"], ["lion", "らいおん"], ["koala", "こあら"],
-      ["alpaca", "あるぱか"], ["dolphin", "いるか"], ["owl", "ふくろう"],
+      ["red-panda", "レッサーパンダ"], ["lion", "ライオン"], ["koala", "コアラ"],
+      ["alpaca", "アルパカ"], ["dolphin", "イルカ"], ["owl", "フクロウ"],
     ],
   },
   {
@@ -250,7 +250,7 @@ const builtInStampSetDefinitions = [
     seriesName: "のりもののたび",
     tier: 1,
     members: [
-      ["car", "くるま"], ["bus", "ばす"], ["fire-engine", "しょうぼうしゃ"],
+      ["car", "くるま"], ["bus", "バス"], ["fire-engine", "しょうぼうしゃ"],
       ["ambulance", "きゅうきゅうしゃ"], ["airplane", "ひこうき"], ["ship", "ふね"],
     ],
   },
@@ -264,8 +264,8 @@ const builtInStampSetDefinitions = [
     seriesName: "のりもののたび",
     tier: 2,
     members: [
-      ["sports-car", "すぽーつかー"], ["crane-truck", "くれーんしゃ"], ["mixer-truck", "みきさーしゃ"],
-      ["ferry", "ふぇりー"], ["helicopter", "へりこぷたー"], ["rocket", "ろけっと"],
+      ["sports-car", "スポーツカー"], ["crane-truck", "クレーントラック"], ["mixer-truck", "ミキサートラック"],
+      ["ferry", "フェリー"], ["helicopter", "ヘリコプター"], ["rocket", "ロケット"],
     ],
   },
   {
@@ -278,8 +278,8 @@ const builtInStampSetDefinitions = [
     seriesName: "のりもののたび",
     tier: 3,
     members: [
-      ["gold-car", "きんのすぽーつかー"], ["future-bus", "みらいばす"], ["rescue-ship", "きゅうじょせん"],
-      ["shuttle", "すぺーすしゃとる"], ["expedition-truck", "ぼうけんとらっく"], ["airship", "ひこうせん"],
+      ["gold-car", "きんのスポーツカー"], ["future-bus", "みらいバス"], ["rescue-ship", "きゅうじょせん"],
+      ["shuttle", "スペースシャトル"], ["expedition-truck", "ぼうけんトラック"], ["airship", "ひこうせん"],
     ],
   },
   {
@@ -290,8 +290,8 @@ const builtInStampSetDefinitions = [
     seriesName: "でんしゃのたび",
     tier: 1,
     members: [
-      ["local", "ろーかるせん"], ["express", "とっきゅう"], ["bullet", "しんかんせん"],
-      ["electric-locomotive", "でんききかんしゃ"], ["monorail", "ものれーる"], ["steam", "えすえる"],
+      ["local", "ローカルせん"], ["express", "とっきゅう"], ["bullet", "しんかんせん"],
+      ["electric-locomotive", "でんききかんしゃ"], ["monorail", "モノレール"], ["steam", "エスエル"],
     ],
   },
   {
@@ -331,7 +331,7 @@ const builtInStampSetDefinitions = [
     tier: 1,
     members: [
       ["ticket", "きっぷ"], ["station", "えき"], ["crossing", "ふみきり"],
-      ["signal", "しんごう"], ["platform", "ほーむ"], ["conductor-cap", "しゃしょうぼう"],
+      ["signal", "しんごう"], ["platform", "ホーム"], ["conductor-cap", "しゃしょうぼう"],
     ],
   },
   {
@@ -344,7 +344,7 @@ const builtInStampSetDefinitions = [
     seriesName: "えきのぼうけん",
     tier: 2,
     members: [
-      ["bento", "えきべん"], ["suitcase", "すーつけーす"], ["lantern", "らんたん"],
+      ["bento", "えきべん"], ["suitcase", "スーツケース"], ["lantern", "ランタン"],
       ["ticket-scissors", "きっぷばさみ"], ["whistle", "ふえ"], ["station-clock", "えきどけい"],
     ],
   },
@@ -370,8 +370,8 @@ const builtInStampSetDefinitions = [
     seriesName: "おかしのくに",
     tier: 1,
     members: [
-      ["cake", "けーき"], ["donut", "どーなつ"], ["pudding", "ぷりん"],
-      ["candy", "あめ"], ["chocolate", "ちょこれーと"], ["cookie", "くっきー"],
+      ["cake", "ケーキ"], ["donut", "ドーナツ"], ["pudding", "プリン"],
+      ["candy", "あめ"], ["chocolate", "チョコレート"], ["cookie", "クッキー"],
     ],
   },
   {
@@ -384,8 +384,8 @@ const builtInStampSetDefinitions = [
     seriesName: "おかしのくに",
     tier: 2,
     members: [
-      ["parfait", "ぱふぇ"], ["fruit-tart", "ふるーつたると"], ["macarons", "まかろん"],
-      ["chocolate-fountain", "ちょこれーとふぁうんてん"], ["sundae", "あいすぱふぇ"], ["cream-puff", "しゅーくりーむ"],
+      ["parfait", "パフェ"], ["fruit-tart", "フルーツタルト"], ["macarons", "マカロン"],
+      ["chocolate-fountain", "チョコレートファウンテン"], ["sundae", "アイスパフェ"], ["cream-puff", "シュークリーム"],
     ],
   },
   {
@@ -398,8 +398,8 @@ const builtInStampSetDefinitions = [
     seriesName: "おかしのくに",
     tier: 3,
     members: [
-      ["rainbow-cake", "にじいろけーき"], ["crown-pudding", "おうかんぷりん"], ["jewel-candy", "ほうせきあめ"],
-      ["moon-macaron", "つきまかろん"], ["golden-cookie", "きんのくっきー"], ["star-chocolate", "ほしちょこれーと"],
+      ["rainbow-cake", "にじいろケーキ"], ["crown-pudding", "おうかんプリン"], ["jewel-candy", "ほうせきあめ"],
+      ["moon-macaron", "つきマカロン"], ["golden-cookie", "きんのクッキー"], ["star-chocolate", "ほしチョコレート"],
     ],
   },
   {
@@ -411,8 +411,8 @@ const builtInStampSetDefinitions = [
     seriesName: "ほうせきのせかい",
     tier: 1,
     members: [
-      ["ruby", "るびー"], ["sapphire", "さふぁいあ"], ["emerald", "えめらるど"],
-      ["diamond", "だいや"], ["amethyst", "あめじすと"], ["pearl", "ぱーる"],
+      ["ruby", "ルビー"], ["sapphire", "サファイア"], ["emerald", "エメラルド"],
+      ["diamond", "ダイヤ"], ["amethyst", "アメジスト"], ["pearl", "パール"],
     ],
   },
   {
@@ -426,8 +426,8 @@ const builtInStampSetDefinitions = [
     tier: 2,
     rarity: "special",
     members: [
-      ["opal", "おぱーる"], ["aquamarine", "あくあまりん"], ["citrine", "しとりん"],
-      ["garnet", "がーねっと"], ["topaz", "とぱーず"], ["tourmaline", "とるまりん"],
+      ["opal", "オパール"], ["aquamarine", "アクアマリン"], ["citrine", "シトリン"],
+      ["garnet", "ガーネット"], ["topaz", "トパーズ"], ["tourmaline", "トルマリン"],
     ],
   },
   {
@@ -441,8 +441,8 @@ const builtInStampSetDefinitions = [
     tier: 3,
     rarity: "special",
     members: [
-      ["star-diamond", "ほしだいや"], ["rainbow-opal", "にじおぱーる"], ["golden-crystal", "きんのくりすたる"],
-      ["heart-ruby", "はーとるびー"], ["moon-sapphire", "つきさふぁいあ"], ["crown-jewel", "おうかんほうせき"],
+      ["star-diamond", "ほしダイヤ"], ["rainbow-opal", "にじオパール"], ["golden-crystal", "きんのクリスタル"],
+      ["heart-ruby", "ハートルビー"], ["moon-sapphire", "つきサファイア"], ["crown-jewel", "おうかんほうせき"],
     ],
   },
 ];
@@ -474,6 +474,66 @@ defaultStampAssets.push(
     })),
   ),
 );
+
+const builtInStampLegacyNames = new Map([
+  ["built-in-animals-penguin", "ぺんぎん"],
+  ["built-in-animals-special-red-panda", "れっさーぱんだ"],
+  ["built-in-animals-special-lion", "らいおん"],
+  ["built-in-animals-special-koala", "こあら"],
+  ["built-in-animals-special-alpaca", "あるぱか"],
+  ["built-in-animals-special-dolphin", "いるか"],
+  ["built-in-animals-special-owl", "ふくろう"],
+  ["built-in-vehicles-bus", "ばす"],
+  ["built-in-vehicles-special-sports-car", "すぽーつかー"],
+  ["built-in-vehicles-special-crane-truck", "くれーんしゃ"],
+  ["built-in-vehicles-special-mixer-truck", "みきさーしゃ"],
+  ["built-in-vehicles-special-ferry", "ふぇりー"],
+  ["built-in-vehicles-special-helicopter", "へりこぷたー"],
+  ["built-in-vehicles-special-rocket", "ろけっと"],
+  ["built-in-vehicles-dream-gold-car", "きんのすぽーつかー"],
+  ["built-in-vehicles-dream-future-bus", "みらいばす"],
+  ["built-in-vehicles-dream-shuttle", "すぺーすしゃとる"],
+  ["built-in-vehicles-dream-expedition-truck", "ぼうけんとらっく"],
+  ["built-in-trains-local", "ろーかるせん"],
+  ["built-in-trains-monorail", "ものれーる"],
+  ["built-in-trains-steam", "えすえる"],
+  ["built-in-train-items-platform", "ほーむ"],
+  ["built-in-train-items-special-suitcase", "すーつけーす"],
+  ["built-in-train-items-special-lantern", "らんたん"],
+  ["built-in-sweets-cake", "けーき"],
+  ["built-in-sweets-donut", "どーなつ"],
+  ["built-in-sweets-pudding", "ぷりん"],
+  ["built-in-sweets-chocolate", "ちょこれーと"],
+  ["built-in-sweets-cookie", "くっきー"],
+  ["built-in-sweets-special-parfait", "ぱふぇ"],
+  ["built-in-sweets-special-fruit-tart", "ふるーつたると"],
+  ["built-in-sweets-special-macarons", "まかろん"],
+  ["built-in-sweets-special-chocolate-fountain", "ちょこれーとふぁうんてん"],
+  ["built-in-sweets-special-sundae", "あいすぱふぇ"],
+  ["built-in-sweets-special-cream-puff", "しゅーくりーむ"],
+  ["built-in-sweets-dream-rainbow-cake", "にじいろけーき"],
+  ["built-in-sweets-dream-crown-pudding", "おうかんぷりん"],
+  ["built-in-sweets-dream-moon-macaron", "つきまかろん"],
+  ["built-in-sweets-dream-golden-cookie", "きんのくっきー"],
+  ["built-in-sweets-dream-star-chocolate", "ほしちょこれーと"],
+  ["built-in-gems-ruby", "るびー"],
+  ["built-in-gems-sapphire", "さふぁいあ"],
+  ["built-in-gems-emerald", "えめらるど"],
+  ["built-in-gems-diamond", "だいや"],
+  ["built-in-gems-amethyst", "あめじすと"],
+  ["built-in-gems-pearl", "ぱーる"],
+  ["built-in-gems-special-opal", "おぱーる"],
+  ["built-in-gems-special-aquamarine", "あくあまりん"],
+  ["built-in-gems-special-citrine", "しとりん"],
+  ["built-in-gems-special-garnet", "がーねっと"],
+  ["built-in-gems-special-topaz", "とぱーず"],
+  ["built-in-gems-special-tourmaline", "とるまりん"],
+  ["built-in-gems-dream-star-diamond", "ほしだいや"],
+  ["built-in-gems-dream-rainbow-opal", "にじおぱーる"],
+  ["built-in-gems-dream-golden-crystal", "きんのくりすたる"],
+  ["built-in-gems-dream-heart-ruby", "はーとるびー"],
+  ["built-in-gems-dream-moon-sapphire", "つきさふぁいあ"],
+]);
 
 const hounyanOutfits = {
   default: {
@@ -582,6 +642,7 @@ let stampCountContext = null;
 let stampCountTarget = 0;
 let stampPreviewContext = null;
 let stampPreviewCounts = {};
+let stampPreviewCategoryId = "all";
 let exchangeConfirmRewardId = "";
 let exchangeConfirmAction = null;
 let timerDurationSeconds = TIMER_DEFAULT_SECONDS;
@@ -725,6 +786,7 @@ const els = {
   stampCountNextButton: document.querySelector("#stampCountNextButton"),
   stampPreviewLayer: document.querySelector("#stampPreviewLayer"),
   stampPreviewStudent: document.querySelector("#stampPreviewStudent"),
+  stampPreviewTabs: document.querySelector("#stampPreviewTabs"),
   stampPreviewList: document.querySelector("#stampPreviewList"),
   stampPreviewTotal: document.querySelector("#stampPreviewTotal"),
   stampPreviewCancelButton: document.querySelector("#stampPreviewCancelButton"),
@@ -1033,13 +1095,18 @@ function normalizeStampAssets(inputAssets) {
         return;
       }
       const base = byId.get(stamp.id) || {};
-      const name = String(stamp.name || base.name || "新しいスタンプ").trim();
+      const useUpdatedBuiltInName = builtInStampLegacyNames.get(String(stamp.id)) === String(stamp.name || "");
+      const name = useUpdatedBuiltInName
+        ? String(base.name || "新しいスタンプ").trim()
+        : String(stamp.name || base.name || "新しいスタンプ").trim();
       byId.set(stamp.id, {
         ...base,
         ...stamp,
         id: String(stamp.id),
         name,
-        reading: String(stamp.reading || stamp.name || base.reading || name).trim(),
+        reading: useUpdatedBuiltInName
+          ? String(base.reading || name).trim()
+          : String(stamp.reading || stamp.name || base.reading || name).trim(),
         src: String(stamp.src || base.src || defaultStampAssets[0].src),
         unlockAt: Math.max(0, Math.floor(Number(stamp.unlockAt ?? base.unlockAt ?? 0))),
         custom: Boolean(stamp.custom || !base.id),
@@ -1142,6 +1209,20 @@ function visibleStampSets() {
 }
 
 function stampSetDisplayOrder(a, b) {
+  const aBuiltInOrder = defaultStampSets.findIndex((stampSet) => stampSet.id === a.id);
+  const bBuiltInOrder = defaultStampSets.findIndex((stampSet) => stampSet.id === b.id);
+  if (aBuiltInOrder >= 0 || bBuiltInOrder >= 0) {
+    if (aBuiltInOrder >= 0 && bBuiltInOrder >= 0) {
+      return aBuiltInOrder - bBuiltInOrder;
+    }
+    return aBuiltInOrder >= 0 ? -1 : 1;
+  }
+  if (a.requiresSetId === b.id) {
+    return 1;
+  }
+  if (b.requiresSetId === a.id) {
+    return -1;
+  }
   const aFamily = a.seriesName || a.name;
   const bFamily = b.seriesName || b.name;
   const familyOrder = aFamily.localeCompare(bFamily, "ja");
@@ -3114,9 +3195,13 @@ function openStampPreview(context) {
     totalBefore: stats.total,
   };
   stampPreviewCounts = Object.fromEntries(stamps.map((stamp) => [stamp.id, 0]));
+  const categories = stampPreviewCategories(stamps);
   if (context.source === "teacher" && Number(context.plannedCount || 0) > 0) {
     const defaultStamp = availableStamps.find((stamp) => stamp.id === state.selectedStampId) || availableStamps[0];
     stampPreviewCounts[defaultStamp.id] = Math.min(STAMP_BATCH_MAX, Number(context.plannedCount || 0));
+    stampPreviewCategoryId = stampPreviewCategoryForStamp(defaultStamp, categories);
+  } else {
+    stampPreviewCategoryId = categories.find((category) => category.id === "basic")?.id || categories[0]?.id || "all";
   }
   els.stampPreviewStudent.textContent = context.source === "child" ? `${student.name}のスタンプ` : `${student.name} / スタンプ`;
   renderStampPreview();
@@ -3135,8 +3220,36 @@ function renderStampPreview() {
   const totalCount = stampPreviewTotalCount();
   const plannedCount = Number(stampPreviewContext?.plannedCount || 0);
   const unit = childMode ? "こ" : "個";
+  const categories = stampPreviewCategories(visibleStampAssets());
+  if (!categories.some((category) => category.id === stampPreviewCategoryId)) {
+    stampPreviewCategoryId = categories[0]?.id || "all";
+  }
+  const activeCategory = categories.find((category) => category.id === stampPreviewCategoryId) || categories[0];
+  const categoryStamps = activeCategory?.stamps || [];
 
-  els.stampPreviewList.innerHTML = visibleStampAssets()
+  els.stampPreviewTabs.innerHTML = categories
+    .map((category) => {
+      const selectedCount = category.stamps.reduce(
+        (sum, stamp) => sum + Number(stampPreviewCounts[stamp.id] || 0),
+        0,
+      );
+      const isActive = category.id === stampPreviewCategoryId;
+      return `
+        <button
+          class="stamp-preview-tab${isActive ? " is-active" : ""}"
+          type="button"
+          role="tab"
+          aria-selected="${isActive}"
+          aria-controls="stampPreviewList"
+          data-stamp-preview-category="${escapeHtml(category.id)}"
+        >
+          <span>${escapeHtml(category.name)}</span>${selectedCount ? `<b>${selectedCount}</b>` : ""}
+        </button>
+      `;
+    })
+    .join("");
+
+  els.stampPreviewList.innerHTML = categoryStamps
     .map((stamp) => {
       const locked = !stampIsAvailableForStudent(stamp, student, stats.total);
       const count = Number(stampPreviewCounts[stamp.id] || 0);
@@ -3165,6 +3278,13 @@ function renderStampPreview() {
     })
     .join("");
 
+  els.stampPreviewTabs.querySelectorAll("[data-stamp-preview-category]").forEach((button) => {
+    button.addEventListener("click", () => {
+      stampPreviewCategoryId = button.dataset.stampPreviewCategory;
+      renderStampPreview();
+    });
+  });
+
   els.stampPreviewTotal.textContent = plannedCount > 0
     ? `合計 ${totalCount}/${plannedCount}${unit}`
     : `合計 ${totalCount}${unit}`;
@@ -3188,7 +3308,48 @@ function closeStampPreview() {
     els.stampPreviewLayer.hidden = true;
     stampPreviewContext = null;
     stampPreviewCounts = {};
+    stampPreviewCategoryId = "all";
   }, 160);
+}
+
+function stampPreviewCategories(stamps) {
+  const stampSets = activeStampSets();
+  const stampSetsById = new Map(stampSets.map((stampSet) => [stampSet.id, stampSet]));
+  const stampSetOrder = new Map(stampSets.map((stampSet, index) => [stampSet.id, index]));
+  const categoriesById = new Map();
+  const basicStamps = [];
+
+  stamps.forEach((stamp) => {
+    if (!stamp.setId) {
+      basicStamps.push(stamp);
+      return;
+    }
+    const stampSet = stampSetsById.get(stamp.setId);
+    const categoryId = stampSet?.seriesId ? `series:${stampSet.seriesId}` : `set:${stamp.setId}`;
+    const categoryName = stampSet?.seriesName || stampSet?.name || "そのほか";
+    const order = stampSetOrder.get(stamp.setId) ?? Number.MAX_SAFE_INTEGER;
+    const category = categoriesById.get(categoryId) || {
+      id: categoryId,
+      name: categoryName,
+      order,
+      stamps: [],
+    };
+    category.order = Math.min(category.order, order);
+    category.stamps.push(stamp);
+    categoriesById.set(categoryId, category);
+  });
+
+  const categories = [{ id: "all", name: "すべて", stamps }];
+  if (basicStamps.length) {
+    categories.push({ id: "basic", name: "いつもの", stamps: basicStamps });
+  }
+  return categories.concat(
+    Array.from(categoriesById.values()).sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, "ja")),
+  );
+}
+
+function stampPreviewCategoryForStamp(stamp, categories) {
+  return categories.find((category) => category.id !== "all" && category.stamps.some((item) => item.id === stamp.id))?.id || "all";
 }
 
 function confirmStampPreview() {
