@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ほうにゃんスタンプ台帳</title>
-    <link rel="stylesheet" href="styles.css?v=stamp-random-v1">
+    <link rel="stylesheet" href="styles.css?v=milestone-celebration-v1">
   </head>
   <body>
     <div class="app-shell">
@@ -700,10 +700,18 @@
     </div>
 
     <div class="animation-layer" id="hounyanAnimationLayer" hidden>
-      <div class="animation-card" role="dialog" aria-modal="true" aria-labelledby="animationTitle">
+      <div class="animation-card" id="animationCard" role="dialog" aria-modal="true" aria-labelledby="animationTitle">
         <div class="animation-burst" aria-hidden="true"></div>
+        <div class="animation-confetti" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
         <img id="animationHounyan" src="assets/hounyan-home.png" alt="ほうにゃん" class="animation-hounyan">
         <img id="animationFeatureImage" src="" alt="" class="animation-feature-image" hidden>
+        <div class="animation-milestone" id="animationMilestone" hidden>
+          <strong id="animationMilestoneValue"></strong>
+          <span id="animationMilestoneLabel"></span>
+        </div>
         <p class="eyebrow" id="animationEyebrow">ほうにゃん</p>
         <h2 id="animationTitle">シート完成！</h2>
         <p id="animationMessage">20こあつまったよ。</p>
@@ -713,6 +721,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="app.js?v=stamp-random-v1"></script>
+    <script src="app.js?v=milestone-celebration-v1"></script>
   </body>
 </html>

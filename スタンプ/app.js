@@ -811,8 +811,12 @@ const els = {
   sheetAlbumList: document.querySelector("#sheetAlbumList"),
   sheetAlbumCloseButton: document.querySelector("#sheetAlbumCloseButton"),
   hounyanAnimationLayer: document.querySelector("#hounyanAnimationLayer"),
+  animationCard: document.querySelector("#animationCard"),
   animationHounyan: document.querySelector("#animationHounyan"),
   animationFeatureImage: document.querySelector("#animationFeatureImage"),
+  animationMilestone: document.querySelector("#animationMilestone"),
+  animationMilestoneValue: document.querySelector("#animationMilestoneValue"),
+  animationMilestoneLabel: document.querySelector("#animationMilestoneLabel"),
   animationEyebrow: document.querySelector("#animationEyebrow"),
   animationTitle: document.querySelector("#animationTitle"),
   animationMessage: document.querySelector("#animationMessage"),
@@ -4029,6 +4033,7 @@ function playNextHounyanAnimation() {
   const { type, options } = hounyanAnimationQueue.shift();
   const outfit = activeOutfit();
   const animation = animationContent(type, options);
+  els.animationCard.dataset.animationType = type;
   els.animationHounyan.src = animation.hounyanSrc || outfitAsset(outfit, animation.pose);
   els.animationHounyan.alt = animation.hounyanAlt || outfit.name;
   if (animation.featureImage) {
@@ -4039,6 +4044,15 @@ function playNextHounyanAnimation() {
     els.animationFeatureImage.hidden = true;
     els.animationFeatureImage.removeAttribute("src");
     els.animationFeatureImage.alt = "";
+  }
+  if (animation.milestone) {
+    els.animationMilestoneValue.textContent = animation.milestone.value;
+    els.animationMilestoneLabel.textContent = animation.milestone.label;
+    els.animationMilestone.hidden = false;
+  } else {
+    els.animationMilestone.hidden = true;
+    els.animationMilestoneValue.textContent = "";
+    els.animationMilestoneLabel.textContent = "";
   }
   els.animationEyebrow.textContent = animation.eyebrow;
   els.animationTitle.textContent = animation.title;
@@ -4081,6 +4095,10 @@ function animationContent(type, options) {
       eyebrow: options.studentName ? `${options.studentName}のシート` : "シート",
       title: "シート完成！",
       message: `${options.sheetNumber || 1}まいめのシートがいっぱいになったよ。ほうにゃんもおいわいしてるよ！`,
+      milestone: {
+        value: `${SHEET_SIZE}こ`,
+        label: `${options.sheetNumber || 1}まいめ かんせい`,
+      },
     };
   }
 
@@ -4093,6 +4111,10 @@ function animationContent(type, options) {
       eyebrow: options.studentName ? `${options.studentName}のほうにゃん` : "ほうにゃん",
       title: `Lv.${levelRule.level}になったよ！`,
       message: `${levelRule.name}にへんしん！あたらしいほうにゃんで、つぎもがんばろう。`,
+      milestone: {
+        value: `Lv.${levelRule.level}`,
+        label: "レベルアップ！",
+      },
     };
   }
 
