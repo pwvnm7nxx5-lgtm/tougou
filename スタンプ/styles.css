@@ -1468,8 +1468,12 @@ input:focus,
 }
 
 .stamp-book-page {
-  display: grid;
+  display: none;
   gap: 16px;
+}
+
+.stamp-book-page.is-active {
+  display: grid;
 }
 
 .stamp-book-hero {
