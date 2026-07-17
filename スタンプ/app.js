@@ -347,6 +347,8 @@ const els = {
   childSheetTitle: document.querySelector("#childSheetTitle"),
   childSheetProgress: document.querySelector("#childSheetProgress"),
   childSheetGrid: document.querySelector("#childSheetGrid"),
+  childCompletedSheets: document.querySelector("#childCompletedSheets"),
+  openSheetAlbumButton: document.querySelector("#openSheetAlbumButton"),
   childAddStampButton: document.querySelector("#childAddStampButton"),
   teacherStudentList: document.querySelector("#teacherStudentList"),
   teacherStudentDetail: document.querySelector("#teacherStudentDetail"),
@@ -455,6 +457,11 @@ const els = {
   hounyanClosetStudent: document.querySelector("#hounyanClosetStudent"),
   hounyanClosetList: document.querySelector("#hounyanClosetList"),
   hounyanClosetCloseButton: document.querySelector("#hounyanClosetCloseButton"),
+  sheetAlbumLayer: document.querySelector("#sheetAlbumLayer"),
+  sheetAlbumStudent: document.querySelector("#sheetAlbumStudent"),
+  sheetAlbumSummary: document.querySelector("#sheetAlbumSummary"),
+  sheetAlbumList: document.querySelector("#sheetAlbumList"),
+  sheetAlbumCloseButton: document.querySelector("#sheetAlbumCloseButton"),
   hounyanAnimationLayer: document.querySelector("#hounyanAnimationLayer"),
   animationHounyan: document.querySelector("#animationHounyan"),
   animationFeatureImage: document.querySelector("#animationFeatureImage"),
@@ -513,6 +520,7 @@ function bindEvents() {
   els.resetLevelRulesButton.addEventListener("click", resetLevelRules);
 
   els.childHounyanButton.addEventListener("click", openHounyanCloset);
+  els.openSheetAlbumButton.addEventListener("click", openSheetAlbum);
   els.childAddStampButton.addEventListener("click", () => openStampCountChoice({ source: "child" }));
   els.addStampButton.addEventListener("click", openTeacherStampPreview);
   els.stampCountMinus.addEventListener("click", () => updateStampCountTarget(-1));
@@ -566,6 +574,12 @@ function bindEvents() {
   els.hounyanClosetLayer.addEventListener("click", (event) => {
     if (event.target === els.hounyanClosetLayer) {
       closeHounyanCloset();
+    }
+  });
+  els.sheetAlbumCloseButton.addEventListener("click", closeSheetAlbum);
+  els.sheetAlbumLayer.addEventListener("click", (event) => {
+    if (event.target === els.sheetAlbumLayer) {
+      closeSheetAlbum();
     }
   });
   els.animationCloseButton.addEventListener("click", hideHounyanAnimation);
@@ -872,6 +886,7 @@ function render() {
   renderStudentSwitch();
   renderStudentLists();
   renderStudentDetails();
+  renderSheetAlbum();
   renderRewards();
   renderRedemptions();
   renderStampAssets();
@@ -966,6 +981,7 @@ function renderStudentDetails() {
   els.teacherStudentDetail.hidden = !student;
 
   if (!student) {
+    els.childCompletedSheets.textContent = "0";
     renderHounyanLevel(null, emptyStats());
     return;
   }
@@ -979,6 +995,7 @@ function renderStudentDetails() {
   els.childAvailableSheets.textContent = stats.availableSheets;
   els.childCurrentSheetCount.textContent = `${stats.currentSheet.count}/${SHEET_SIZE}`;
   els.childRemainingText.textContent = `${stats.currentSheet.remaining}こ`;
+  els.childCompletedSheets.textContent = stats.completedSheets;
   renderChildNextUnlock(stats.total);
   renderSheet({
     grid: els.childSheetGrid,
@@ -1169,6 +1186,78 @@ function closeHounyanCloset() {
   setTimeout(() => {
     els.hounyanClosetLayer.hidden = true;
   }, 180);
+}
+
+function openSheetAlbum() {
+  if (!selectedStudent()) {
+    showToast("先に児童をえらんでね");
+    return;
+  }
+  renderSheetAlbum();
+  els.sheetAlbumLayer.hidden = false;
+  els.sheetAlbumLayer.classList.remove("is-showing");
+  requestAnimationFrame(() => {
+    els.sheetAlbumLayer.classList.add("is-showing");
+    els.sheetAlbumCloseButton.focus();
+  });
+}
+
+function closeSheetAlbum() {
+  els.sheetAlbumLayer.classList.remove("is-showing");
+  setTimeout(() => {
+    els.sheetAlbumLayer.hidden = true;
+  }, 180);
+}
+
+function renderSheetAlbum() {
+  const student = selectedStudent();
+  if (!student) {
+    els.sheetAlbumStudent.textContent = "がんばり";
+    els.sheetAlbumSummary.textContent = "児童をえらぶと、できあがったシートがここにならぶよ。";
+    els.sheetAlbumList.innerHTML = '<p class="empty-state">まだ見るシートがありません。</p>';
+    return;
+  }
+
+  const sheets = completedSheetsForStudent(student.id);
+  els.sheetAlbumStudent.textContent = `${student.name}のがんばり`;
+  els.sheetAlbumSummary.textContent = sheets.length
+    ? `これまでに${sheets.length}まい、${sheets.length * SHEET_SIZE}このスタンプをあつめたよ！`
+    : `スタンプを${SHEET_SIZE}こあつめると、ここに1まいめがのこるよ。`;
+  els.sheetAlbumList.innerHTML = sheets.length
+    ? sheets.map((sheet) => completedSheetCard(sheet)).join("")
+    : '<p class="empty-state">まだできあがったシートはないよ。もうすこしで1まいめ！</p>';
+}
+
+function completedSheetsForStudent(studentId) {
+  const events = state.stampEvents
+    .filter((event) => event.studentId === studentId && !event.canceled)
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+  const completedCount = Math.floor(events.length / SHEET_SIZE);
+  return Array.from({ length: completedCount }, (_, index) => ({
+    number: index + 1,
+    events: events.slice(index * SHEET_SIZE, (index + 1) * SHEET_SIZE),
+  })).reverse();
+}
+
+function completedSheetCard(sheet) {
+  const completedAt = sheet.events.at(-1)?.createdAt;
+  return `
+    <article class="completed-sheet-card">
+      <div class="completed-sheet-head">
+        <div>
+          <span>がんばりシート</span>
+          <strong>${sheet.number}まいめ</strong>
+        </div>
+        <p>${completedAt ? formatDateTime(completedAt) : ""}</p>
+      </div>
+      <div class="completed-sheet-grid" aria-label="${sheet.number}まいめの20こスタンプシート">
+        ${sheet.events.map((event) => {
+          const stamp = stampById(event.stampId);
+          return `<div class="stamp-slot is-filled"><img src="${escapeHtml(stamp.src)}" alt="${escapeHtml(stamp.name)}"></div>`;
+        }).join("")}
+      </div>
+    </article>
+  `;
 }
 
 function nextUnlockStamp(total) {

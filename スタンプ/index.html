@@ -117,6 +117,14 @@
             </div>
             <div class="stamp-sheet" id="childSheetGrid" aria-label="20こスタンプシート"></div>
 
+            <div class="sheet-album-summary">
+              <div>
+                <p class="eyebrow">がんばりアルバム</p>
+                <strong><span id="childCompletedSheets">0</span>まい できたよ！</strong>
+              </div>
+              <button class="soft-button" type="button" id="openSheetAlbumButton">シートをみる</button>
+            </div>
+
             <div class="child-stamp-area">
               <section>
                 <div class="section-head compact">
@@ -627,6 +635,22 @@
         <div class="hounyan-closet-list" id="hounyanClosetList"></div>
         <div class="preview-actions single">
           <button class="primary-button" type="button" id="hounyanClosetCloseButton">とじる</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-layer" id="sheetAlbumLayer" hidden>
+      <div class="preview-card sheet-album-card" role="dialog" aria-modal="true" aria-labelledby="sheetAlbumTitle">
+        <div class="section-head compact">
+          <div>
+            <p class="eyebrow" id="sheetAlbumStudent">がんばり</p>
+            <h2 id="sheetAlbumTitle">がんばりアルバム</h2>
+          </div>
+        </div>
+        <p class="sheet-album-intro" id="sheetAlbumSummary">できあがったシートがここにならぶよ。</p>
+        <div class="sheet-album-list" id="sheetAlbumList"></div>
+        <div class="preview-actions single">
+          <button class="primary-button" type="button" id="sheetAlbumCloseButton">とじる</button>
         </div>
       </div>
     </div>
