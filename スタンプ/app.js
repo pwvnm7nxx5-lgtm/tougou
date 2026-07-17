@@ -1140,6 +1140,7 @@ function normalizeStampSets(inputSets, stampAssets = []) {
     inputSets.filter((stampSet) => stampSet && stampSet.id).forEach((stampSet) => {
       const id = String(stampSet.id);
       const base = byId.get(id) || {};
+      const builtInSet = Boolean(base.id && isBuiltInStampSet(id));
       const memberIds = Array.isArray(stampSet.memberIds)
         ? stampSet.memberIds.map(String).filter((stampId) => knownStampIds.has(stampId))
         : stampAssets.filter((stamp) => stamp.setId === id).map((stamp) => stamp.id);
@@ -1150,10 +1151,10 @@ function normalizeStampSets(inputSets, stampAssets = []) {
         priceSheets: Math.max(1, Math.floor(Number(stampSet.priceSheets || base.priceSheets || 1))),
         memberIds: [...new Set(memberIds)],
         hidden: Boolean(stampSet.hidden ?? base.hidden ?? false),
-        requiresSetId: String(stampSet.requiresSetId ?? base.requiresSetId ?? ""),
-        seriesId: String(stampSet.seriesId ?? base.seriesId ?? ""),
-        seriesName: String(stampSet.seriesName ?? base.seriesName ?? ""),
-        tier: Math.max(1, Math.floor(Number(stampSet.tier ?? base.tier ?? 1))),
+        requiresSetId: String(builtInSet ? base.requiresSetId || "" : stampSet.requiresSetId ?? base.requiresSetId ?? ""),
+        seriesId: String(builtInSet ? base.seriesId || "" : stampSet.seriesId ?? base.seriesId ?? ""),
+        seriesName: String(builtInSet ? base.seriesName || "" : stampSet.seriesName ?? base.seriesName ?? ""),
+        tier: Math.max(1, Math.floor(Number(builtInSet ? base.tier || 1 : stampSet.tier ?? base.tier ?? 1))),
       });
     });
   }
